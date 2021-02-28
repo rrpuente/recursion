@@ -5,6 +5,8 @@ right = '→'
 left = '←'
 up = '↑'
 down = '↓'
+empty_space = '_'
+wall = '🀫'
 
 moves = [
     {'x':0, 'y':1, 'dir': right}, # move right
@@ -35,31 +37,30 @@ class Position:
 
 def isValidMove(start, move):
     return start.x + move['x']>=0 and start.x + move['x']<size \
-        and start.y + move['y']>=0 and start.y + move['y']<size
+        and start.y + move['y']>=0 and start.y + move['y']<size \
+            and lab[start.x + move['x']][start.y + move['y']] == empty_space
 
 def findSolutions(lab, start, end):
     for move in moves:
         if isValidMove(start, move):
-            if lab[start.x + move['x']][start.y + move['y']] == '_':
                 lab[start.x][start.y ] = move['dir']
-                
                 start = Position(start.x + move['x'], start.y + move['y'])
                 if start == end:
                     printMaze(lab, start, end)
                     input("Press Enter to continue...")
                 findSolutions(lab, start, end)
                 start = Position(start.x - move['x'], start.y - move['y'])
-                lab[start.x][start.y ] = '_'
+                lab[start.x][start.y ] = empty_space
 
 if __name__ == "__main__":
-    lab = [['_', '_','_', '_', '_', '_', '_', '_'],
-        ['_', '_','_', '🀫', '_', '_', '_', '_'],
-        ['_', '🀫','_', '_', '🀫', '_', '_', '_'],
-        ['_', '_','_', '_', '_', '_', '_', '_'],
-        ['_', '_','_', '_', '_', '_', '_', '_'],
-        ['_', '_','_', '🀫', '_', '_', '_', '_'],
-        ['_', '_','_', '_', '_', '_', '🀫', '_'],
-        ['_', '_','_', '_', '_', '_', '_', '_']]
+    lab = [[empty_space, empty_space,empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+        [empty_space, empty_space,empty_space, wall, empty_space, empty_space, empty_space, empty_space],
+        [empty_space, wall,empty_space, empty_space, wall, empty_space, empty_space, empty_space],
+        [empty_space, empty_space,empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+        [empty_space, empty_space,empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+        [empty_space, empty_space,empty_space, wall, empty_space, empty_space, empty_space, empty_space],
+        [empty_space, empty_space,empty_space, empty_space, empty_space, empty_space, wall, empty_space],
+        [empty_space, empty_space,empty_space, empty_space, empty_space, empty_space, empty_space, empty_space]]
         
     mstart = Position(0,0)
     end = Position(7,7)
